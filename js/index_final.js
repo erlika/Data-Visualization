@@ -326,10 +326,7 @@ function my_graph_draw(data) {
     var row = 0,
         col = 0,
         top = 45,
-		//top = 75,
         left = 30,
-		//left = 760,
-		//right = 760,
         inMarg = 15,
         width = 115,
         height = 90,
@@ -339,14 +336,13 @@ function my_graph_draw(data) {
 	var monthname=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 	  
 	var unsortedmonths = dimple.getUniqueValues(filteredDataY, "Month");
-	// ** var months = dimple.getUniqueValues(filteredDataY, "Month");
 	
 	// ** debugger;
 
 	
 	var months=unsortedmonths.sort(function(a,b){
 		return a-b;
-		//return (+b.Month) - (+a.Month);
+
 	    });
 	
     // Pick the latest 12 dates
@@ -357,6 +353,7 @@ function my_graph_draw(data) {
 	// ** so we can draw the x axis text on the last row.
 	var Trowcount = months.length/4;;   // ** these are trelis row count i.e. how many for graphs
 	var rcount = 0.0;
+
     // ** Draw a chart for each of the 12 dates
     months.forEach(function (month) {
           
