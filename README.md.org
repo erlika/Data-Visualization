@@ -188,6 +188,7 @@ After working on the feedback from my coach, I prepared the final visualization 
 
 <img src="../master/img/visualization_final.PNG" />
 
+
 ## Resources
 
 - [Alberto Cairo three steps](http://vizwiz.blogspot.com/2013/01/alberto-cairo-three-steps-to-become.html)

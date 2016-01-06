@@ -1,127 +1,122 @@
 d3.csv("data/473753677_82015_1729_airline_delay_causes.csv", function(d) {	
   return {
-    'Year': +d.year,								// ** Year converted into integer
-	'Month': +d.month,								// ** Month converted into integer
-    'CarrierName': d.carrier_name,					// ** airline name
-	'Airport': d.airport,							// ** airport name
-	'delay': +d.arr_delay,							// ** arrival delay converted into integer.
-    'OnTime': +(1.00-(d.arr_del15/d.arr_flights)),  // ** calculating On-Time arival rate i.e. delayed/total 
-	'Carrier': +(1.00-(d.carrier_ct/d.arr_del15)),  // ** Calculating Carrier delays.
-	'Weather': +(1.00-(d.nas_ct/d.arr_del15)),		// ** Calculating Weather delays.
-	'Security': +(1.00-(d.security_ct/d.arr_del15)), // **  Calculating Security delays.
+    'Year': +d.year,
+	'Month': +d.month,
+    'CarrierName': d.carrier_name,
+	'Airport': d.airport,
+	'delay': +d.arr_delay,
+    'OnTime': +(1.00-(d.arr_del15/d.arr_flights)),
+	'Carrier': +(1.00-(d.carrier_ct/d.arr_del15)),
+	'Weather': +(1.00-(d.nas_ct/d.arr_del15)),
+	'Security': +(1.00-(d.security_ct/d.arr_del15)),
     'Arrivals': +d.arr_flights
   }; 
 }, function(data) {
 	'use strict';
 
+
+
 	// ** Remove comments to enable debugger   
 	// ** debugger;
   
 	
-	my_graph_draw(data);							// ** out main draw function where all the magic happens.
+	my_graph_draw(data);
 	// ** debugger;
 	
 });
 
-function my_graph_draw(data) {						// ** start of the my_draw_graph
-
-// ** nestchartData : provides On-Time average by year for each airline.	
-// ** nestchartData will hold the data sorted first by carrier name, then by year and average On-time for that year  
-// ** CarrierName = Airline name, we are using this as first key to nest data by.
-// ** Year will hold the year of the data and it is the second key.
-// ** next using rollup and d3.mean() we are calculating the average On-Time for Carrier by Year.
-// ** Data will be as follow:
-// ** {key:"CarrierName1",{key:year, value:OnTime}}
-// ** {key:"CarrierName1",{key:year, value:OnTime}}
+function my_graph_draw(data) {
+	
+	var filteredData = [];
+	var filteredDataC = [];
+	var filteredDataA = [];
+	var filteredDataY = [];
 
 	var nestchartData = d3.nest()
 
-		.key(function(d) { return d.CarrierName; }) 				// ** First Key = CarrierName
-		.key(function(d) { return d.Year; })						// ** Second Key = Year
-		.rollup(function(v) { return {								// ** rollup for average
-			OnTime: d3.mean(v, function(d) { return d.OnTime; }) 	// ** d3.mean to caluclate the average
-
+		.key(function(d) { return d.CarrierName; })
+		.key(function(d) { return d.Year; })
+		.rollup(function(v) { return {
+			OnTime: d3.mean(v, function(d) { return d.OnTime; }) //,
+//			Carrier: d3.mean(v, function(d) { return d.Carrier; }),
+//			Security: d3.mean(v, function(d) { return d.Security; }),
+//			Weather: d3.mean(v, function(d) { return d.Weather; })
 			}; })
 		.map(data);
 
-		
-// ** IndustryData : calculate and provide Industry average for On-Time per Year.
-// ** IndustryData will hold the data sorted by year and average On-time for that year for all airlines included.  
-// ** Year will hold the year of the data and it is the second key.
-// ** next using rollup and d3.mean() we are calculating the average On-Time for the Year.
-// ** Data will be as follow:
-// ** {key:2003, value:0.867574}
-// ** {key:2004, value:0.776554}
-		
 	var IndustryData = d3.nest()
 
-		.key(function(k) { return k.Year; })							// ** First Key = Year
-		.rollup(function(v) { return {									// ** rollup for average
-			OnTime_Iavg: d3.mean(v, function(d) { return d.OnTime; })	// ** d3.mean to caluclate the average 
+		.key(function(k) { return k.Year; })
+		.rollup(function(v) { return {
+			OnTime_Iavg: d3.mean(v, function(d) { return d.OnTime; }) //,
 
 			}; })
 		.map(data);
 	
-	// ** debugger;	
 
 	
-// ** Calling function flatten to massage the data into shape to be used with dimple for our graphs.
-// ** flatten : two paramaters (nestchartData=airline average,IndustryData = industry average)
-	
+
+
+	debugger;	
+
+
     chartData = flatten(nestchartData,IndustryData); 
 	
 
 	
-	// ** svg element based on the passed selector and returns the underlying svg element
+	// working: var svg = dimple.newSvg('#graph1',800, 400)
     var svg = dimple.newSvg('#graph1',1400, 400)
+	
+	// ** Remove comments to enable debugger	
+	// ** ////////////////////////
+	// ** debugger;
+	// ** /////////////////////////
 
-	//** Initialise the chart with chartData and an svg in which to render
+	//var filteredDataY = dimple.filterData(data, "Year");
+	// var myChart = new dimple.chart(svg, chartData);
+	
+	// ** debugger;
 	var myChart = new dimple.chart(svg, chartData);
 
 	
-	// ** Set Chart boundaries
-	myChart.setBounds(90, 50, 1100, "77%");  
-	
-// ** set y axis
-	// ** I decided to truncate minY at 50% becuase concerned that a 0-100% scale would have crowded the lines and obfuscated any trends.
-	var minY = 0.5, 
-	// ** I am setting maxY to 100%, perfect arrival rate.
+
+	myChart.setBounds(90, 50, 1100, "77%");  	
+	// ** set y axis
+	var minY = 0.5,
 		maxY = 1;
-	// ** Plot OnTime on Y-Axis.	
 	var y = myChart.addMeasureAxis('y', 'OnTime');
-	y.tickFormat = '%';		// ** % is the tick fomat for Y-Axis, we want to shows as 50%, 60% etc.
+	y.tickFormat = '%';
 	y.overrideMin = minY;
 	y.overrideMax = maxY;
 	y.title = '%age of Arrival on-Time';
 
-// ** set x axis
-	var minX = 2003,		// ** setting minX from Year 2003 start of our data
-		maxX = 2015;		// ** setting max to 2015 as the last year of the data available.
-		
-	// ** Add an x axis for Years	
+	// ** set x axis
+	var minX = 2003,
+		maxX = 2015;
 	var x = myChart.addMeasureAxis('x','Year','%b');
-	x.tickFormat = 'd';     // ** Tick for X-axis is d, since we like to display as 2033, 2004 etc.
+	x.tickFormat = 'd';
 	x.overrideMin = minX;
 	x.overrideMax = maxX;  
-	x.title = 'Years'; 		// ** X-axis title
+	x.title = 'Years'; 
 
 
   
   
-// ** set series and legend
+	// ** set series and legend
 
-	// ** First add scatter plot series, to show data points.
 	var s = myChart.addSeries(['Year','Carrier'], dimple.plot.scatter);
-	// ** Second add line plot series to show the trend.
 	var p = myChart.addSeries(['Year','Carrier'], dimple.plot.line);
-	// ** Add legend
+	
 	var legend = myChart.addLegend(1230, 75, 0, 350, 'left');
-	// ** picking on Carrier name as legend
+	
 	legend.series = [s];
 
   
-	// ** draw the chart
+	// ** draw
 
+	// ** Remove comments to enable debugger	
+	// ** debugger;
+	// ** ///////////////////////////////////////////
 	myChart.draw();
 
 	
@@ -210,8 +205,7 @@ function my_graph_draw(data) {						// ** start of the my_draw_graph
 	
 	// ** debugger;
 	
-    // ** had to add it here as well
-	// ** reason was mouse events were not working once you have clicked the legen.
+
 	// ** handle mouse events on gridlines
     y.gridlineShapes.selectAll('line')
     .style('opacity', 0.25)
@@ -261,11 +255,8 @@ function flatten(o,i) {
 // ** false = Missed the year and did not beat or equal Industry average on-time arrival.
 // ** true = meet or beat the Industry average on-time arrival.
 	var missed = false;
-// ** how many years missed by airline not beating or equaling indistry average	
 	var missedcount = 0;
-// ** how many years not missed.	
 	var NotMissed = 0;
-// ** array to hold the values before we decide if threshold is met to copy to retuned array "temp"	
 	var holder = new Array();
 	
 // ** Get the list of all the Years for the Carrier and assign to Years varibale to loop year by Year	
@@ -307,9 +298,8 @@ function flatten(o,i) {
 						// ** Push the values to the holder array;
 						holder.push(valueToPush);
 						
-						if(CAvg >= IndAvg) {  // ** this is critcal because we check here if the carrier beat or meet the industry 
-											  // ** On-Time average, if yes, increment NotMissed, if No, set missed = true and
-											  // ** increament missedcount, which will be used in the threshold.
+						if(CAvg >= IndAvg) {
+
 							NotMissed ++;
 						}  else {
 							missed = true;
@@ -318,19 +308,11 @@ function flatten(o,i) {
 						} 
 				
 				});
-// **  this is crucial check:
-// **  First, I decided to plot all carriers that did not miss a single year beating or meeting industry average and unfortunately no carriers made the cut.
-// **  Then decided to plot all carriers that only missed 1 year in beating or meeting industry average and only 1 carrier made the cut i.e. "Skywest Airlines".  
-// **  I don't think this is justice to other Airlines that performed as well and missed more than 1 year beating or meeting the average.
-// **  Third, to best illustrate the top punctual airlines, I decided to adjust my decision criteriea to call airlines punctual 
-// **  that have not missed beating or meeting the industry average more than 4 years.  
-// **  I personally think 4 years flexibility gives anough leeway to Carriers to be included that had temporary set backs and kept improving the punctuality. 
- 				
 				 if (missedcount <= 4){
 						// ** Push the values to the temp array;
 						// ** copy values
 						temp.push.apply(temp, holder);
-						// ** debugger;
+						debugger;
 				} 
 			}
 
