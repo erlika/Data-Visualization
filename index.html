@@ -3,101 +3,26 @@
   <head>
     <meta charset="utf-8">
     <title>Airline Performance, 2003-2015</title>
-    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/style2.css" rel="stylesheet" />
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="https://jashkenas.github.io/underscore/underscore-min.js"></script>
     <script src="js/index.js"></script>
   </head>
 <body>
 
-<!-- <h1> U.S. Domestic Airlines Performance </h1> -->
-<h2> On-Time Arrival Rates for Selected Airline by Airport and Year </h2>
 
-<center>
-<table>
-	<tbody>
-		<tr>
-			<td style="height:10px;" colspan="5"></td>
-		</tr>
-			<form name="OnTime" id="OnTime" method="POST" action="OT_CHART()"></form>
-		<tr>
-			<td></td><td></td><td></td><td></td>
-			<td>
-				<label for="CarrierForm">
-					<a class="tsslcLbl" style="color: #000000;text-decoration:none;" >Select a carrier: </a>
-				</label>
-			</td>
-			<td>
-				<label for="Airport">
-					<a class="tsslcLbl" style="color: #000000;text-decoration:none;" >Select an airport:</a> 
-				</label>
-			</td>
-			<td>
-				<label for="YearForm">
-					<a class="tsslcLbl" style="color: #000000;text-decoration:none;" >Select a Year:</a> 
-				</label>
-			</td>
-			<td>
-				<label for="PeriodFrom">
-					<a class="tsslcLbl" style="color: #000000;text-decoration:none;" >From Month:</a> 
-				</label>
-			</td>
-			<td>
-				<label for="PeriodTo">
-					<a class="tsslcLbl" style="color: #000000;text-decoration:none;" >To Month:</a> 
-				</label>
-			</td>
-		</tr>
-		<tr>
-			<td></td><td></td><td></td><td></td>
-			<td style="padding-top:0px;">
-				<!-- <select name="CarrierForm" multiple="multiple" id="selectCarrier" placeholder="American Airlines, Inc." class="slcBox" style="width:210px;" > -->
-				<select name="CarrierForm" id="selectCarrier" placeholder="American Airlines, Inc." class="slcBox" style="width:210px;" >	
-					<!-- <option selected="American Airlines, Inc." </option> -->
-				</select>
-			</td>
-			<td style="padding-top:0px;">
-				<select name="Airport" id="Airport" placeholder="BDL" class="slcBox" style="width:210px;" >
-					<!-- <option selected="JFK" </option> -->
-				</select>
-			</td>
-			<td style="padding-top:0px;">
-				<select name="YearForm" id="selectYear" placeholder="2015" class="slcBox" style="width:210px;" >
-					<!-- <option selected="2015" </option> -->
-				</select>
-			</td>
-			<td>
-				<select name="PeriodFrom" id="PeriodFrom" placeholder="9" class="slcBox" style="width:150px;">
-					<!-- <option selected="1" </option> -->
-				</select>
-			</td>
-			<td>
-				<select name="PeriodTo" id="PeriodTo" placeholder="10" class="slcBox" style="width:150px;">
-					<! -- <option selected="12" </option> -->
-				</select>
-			</td>
-			
-		</tr>
-		<tr>
-			<td></td> 
-	
-			<td colspan="4" style="VERTICAL-ALIGN:BOTTOM;text-align:right;">
-				<button id="submit" type="submit" style="font-size:7pt;">Submit</button>
-			</td>
-		</tr>
-
-	</tbody>
-</table>
-</center>
-
+<h2> Airlines that increased ontime performance between 2005 and 2013 while also beating the average for more than 8 years </h2>
+This graph shows Airlines with performance increasing from the 2003 values to the current 2015 values and beat industry On-Time average by more than 8 years. The Dash line represent the Industry On-time Average in the visualization.  
+<br>
 
   <div class="container">
-    <div class="row">
-      <section id="content" class="col-md-6"></section>
-	  <section id="content2" class="col-md-6"></section>
-    </div>
+    <div id="graph1">
+	</div>
   </div>
  
+
+
 </body>
 </html>

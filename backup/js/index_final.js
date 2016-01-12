@@ -124,7 +124,6 @@ function my_graph_draw(data) {						// ** start of the my_draw_graph
 
 	myChart.draw();
 
-	
 	// ** This is a critical step.  By doing this we orphan the legend. This
     // ** means it will not respond to graph updates.  Without this the legend
     // ** will redraw when the chart refreshes removing the unchecked item and
@@ -243,6 +242,9 @@ function my_graph_draw(data) {						// ** start of the my_draw_graph
 
 	
 
+// ** Calling function flatten to massage the data into shape to be used with dimple for our graphs.
+// ** flatten : two paramaters (o=airline average,i = industry average)
+	
 function flatten(o,i) {
 
 // ** o = Nested Data i.e. nestchartData
@@ -267,7 +269,8 @@ function flatten(o,i) {
 	var NotMissed = 0;
 // ** array to hold the values before we decide if threshold is met to copy to retuned array "temp"	
 	var holder = new Array();
-	
+
+						
 // ** Get the list of all the Years for the Carrier and assign to Years varibale to loop year by Year	
 		Years = (Object.keys(o[d]));
 		
@@ -303,6 +306,9 @@ function flatten(o,i) {
 						var CAvg = +(o[d][e]["OnTime"]);
 						// ** Log to console to display for confirmation;
 						//console.log("Carrier="+d+","+"Year="+(+e)+","+"OnTime="+o[d][e]["OnTime"]);
+						
+						// ** Assign IndAvg to "Industry Average" in ValueToPush array; 
+						// ** valueToPush["Industry Average"] = IndAvg;
 						
 						// ** Push the values to the holder array;
 						holder.push(valueToPush);
@@ -340,7 +346,32 @@ function flatten(o,i) {
 	//console.log(temp[0]);
 	//console.log(temp[1]);
 	//console.log(temp[2]);
-
+	// ** Create new array for every new year to hold Industry values to push to temp array.
+	var INDArray = new Array();
+	// ** Lets Add the Indistru Average to the temp array so we have it available to draw the average line
+	var INDYears = (Object.keys(i));
+	INDYears.forEach(function(e) {
+						// ** Create new array for every new year to hold values to push to temp array.
+						var INDToPush = new Array();
+						
+						// ** Get the industry average that we calculated in IndustryData by Year.
+						var IndAvg = +(i[e]["OnTime_Iavg"]);
+						
+						// ** Assign Industry Average to Carrier Key in INDToPush array; 
+						INDToPush["Carrier"] = "Industry Average On-Time";
+						
+						// ** Assign Year to Year in INDToPush array; 
+						INDToPush["Year"] = +e;
+						
+						// ** Assign Average to OnTime in INDToPush array; 
+						INDToPush["OnTime"] = IndAvg;
+						
+						INDArray.push(INDToPush);
+				});
+				
+	// ** Push the values to the temp array;
+	// ** copy values
+	temp.push.apply(temp,INDArray);				
 // ** return the temp array;
 	return temp;
 }

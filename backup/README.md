@@ -4,7 +4,7 @@ by Mohammad Yaqoob for Udacity's [Data Analyst Nanodegree](https://www.udacity.c
 
 ## Summary
 
-This data visualization is designed to show that airline performance increasing from the 2003 value to the current 2015 value while also beating the average for more than 8 years.  I wanted to communicate the airlines that beat industry average over 8 years with atleast 12 years worth of data available. This visualization also indicate that bigger is not always better as it shows many of the large airlines did not make the cut. The data is downloaded from [RITA](http://www.transtats.bts.gov/OT_Delay/ot_delaycause1.asp?display=download&pn=0&month=12&year=2015)  
+This data visualization is designed to shows which airlines will have 80% or greater On-Time Arrival Rates for a selected Airport and Year.  I also wanted to communicate the story that user selected airport and year, on average how much the categories of security, carrier, and weather impact airlines performance by graphing their averages by months, allowing users to see what factors contribute the most to airpot and airline delays.  The data is downloaded from [RITA](http://www.transtats.bts.gov/OT_Delay/ot_delaycause1.asp?display=download&pn=0&month=12&year=2015)  
 
 ## Design
 
@@ -182,53 +182,11 @@ I received excellent feedback on my visualization from the coach.  The details o
 - I truncated the y-axis minimum at a non-zero value; I chose to truncate it at 50%, as I was concerned that a 0-100% scale would have crowded the lines and obfuscated any trends.
 
 
-## Post Coach Feedback 1 Visulization
+## Post Coach Feedback Visulization
 
 After working on the feedback from my coach, I prepared the final visualization as shown below: 
 
 <img src="../master/img/visualization_final.PNG" />
-
-## Coach Feedback 2 and Design
-
-I addressed the concerns and points pointed out by the coach in the 2nd feedback as follow:
-
-> SPECIFICATION
-> The visualization renders and any interactions or animations work as the reader interacts with the visualization.
-> DOES NOT MEET SPECIFICATION
-> Reviewer Comments
-The visualization does render; however, the final "index._final.html" is pointing to the javascript file "index_PFB_1A.js". I wasn't sure if it was supposed to be pointing to that file or if it was supposed to be pointing to index_final.js.
-
-- I fixed the problem and cleanup the github as well not to confuse the viewer.  I moved all older files to backup folder and only kept index.html and index.js as the main files and to be reviewed.
-
-> SPECIFICATION
-> The selected finding is clearly communicated. Design choices foster communication between the reader and the visualization.
-> DOES NOT MEET SPECIFICATION
-> Reviewer Comments
-> I like the encoding choices of the line chart, so that part is passing for me. There are a couple of things missing, however, to really communicate the story effectively:
-> - update title and subtitle.
-> - Add refrence line i.e. the industry average which is the important part fo the story.
-> - y-axis truncated between 50%-100%.
-
-- I have updated the title and subtitle.
-- I have updated the code to add industry average to the visulization.
-- I have updated the y-Axis.
-
-> SPECIFICATION
-> A reader’s summary of the graphic would closely match the written summary in the README.md file, or a reader would identify at least 1 main point or relationship that the graphic attempts to convey.
-> DOES NOT MEET SPECIFICATION
-> Reviewer Comments
-> A reader would definitely understand the purpose of the visualization; however, because the average line wasn't included, > I think a reader would be skeptical of the claims made. The reader doesn't have a reference point to understand the story of which airlines are performing better than the average.
-> Also the summary section of the README file seems to refer to a previous version of the visualization. Please revise the summary section to reflect the current explanatory story in this new submission.
-
-- I have added the industry average line to the plot.
-- I have updated the summary section of the README.
-
-
-## Post Coach Feedback 2 Visulization
-
-After working on the feedback from my coach, I prepared the final visualization as shown below: 
-
-<img src="../master/img/visualization_final_after_2nd_feedback.PNG" />
 
 ## Resources
 
